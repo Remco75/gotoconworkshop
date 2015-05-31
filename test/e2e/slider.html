@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en" ng-app="exampleApp">
+<head>
+    <meta charset="utf-8">
+    <title>Slider example</title>
+    <!--<link rel="stylesheet" href="/app/css/global/bootstrap/bootstrap.css" type="text/css"/>-->
+    <!--<link rel="stylesheet" href="/app/css/documentation.css" type="text/css"/>-->
+
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="/lib/angular/angular.js"></script>
+    <script src="/lib/angular-resource/angular-resource.min.js"></script>
+    <script src="/lib/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="/lib/angular-touch/angular-touch.min.js"></script>
+    <script src="/lib/angular-animate/angular-animate.js"></script>
+
+    <!-- ING Global -->
+    <link rel="stylesheet" href="/lib/the-guide-styles/css/the-guide-styles.css" type="text/css"/>
+
+    <script type="text/javascript">
+        var exampleApp = angular.module('exampleApp', ['ingGlobal', 'ngTouch']).
+                controller('sliderCtrl', function ($scope, $rootScope) {
+                    $scope.slider = {
+                        sliderValue: 1
+                    };
+                    $scope.rangeSlider = {
+                        lowerBound: 2,
+                        higherBound: 4
+                    };
+                    $scope.step = 1;
+                    $scope.min = 1;
+                    $scope.max = 5;
+                    $scope.segments = new Array(4);
+                });
+    </script>
+
+    <script src="/js/ingglobal.js"></script>
+    <script src="/js/directives/draggable.js"></script>
+    <script src="/js/directives/slider.js"></script>
+    <script src="/js/directives/sliderBar.js"></script>
+    <script src="/js/directives/sliderHandle.js"></script>
+    <script src="/js/directives/sliderPopover.js"></script>
+    <script src="/js/services/keyBindingConfig.js"></script>
+    <script src="/js/services/keyBindingService.js"></script>
+    <script src="/js/services/expressions.js"></script>
+    <script src="/js/services/utilsService.js"></script>
+    <script src="/js/filters/currency.js"></script>
+<body class="tg">
+<div ng-controller="sliderCtrl" class="container-fluid">
+
+    <div class="tg">
+        <div class="row">
+            <div class="col-md-3 col-md-offset-3 l-mt-4">
+                <h1>Slider value</h1>
+            </div>
+            <div class="col-md-3 col-md-offset-1 l-mt-4">
+                <h1>Range slider value</h1>
+            </div>
+            <div class="col-md-3 col-md-offset-3">
+                <label>Value: <input type="number" step="{{step}}" id="modelInput" ng-model="slider.sliderValue"></input></label>
+                <p>(Or non-editable: <span id="sliderValue">{{slider.sliderValue}}</span>)</p>
+            </div>
+
+            <div class="col-md-3 col-md-offset-1">
+                <label>Lower bound: <input type="number" step="{{step}}" id="rangeLowModelInput" ng-model="rangeSlider.lowerBound"></input></label>
+                <label>Higher bound: <input type="number" step="{{step}}" id="rangeHighModelInput" ng-model="rangeSlider.higherBound"></input></label>
+                <p>(Or non-editable: <span id="rangeSliderLowValue">{{rangeSlider.lowerBound}}</span> - <span id="rangeSliderHighValue">{{rangeSlider.higherBound}}</span>)</p>
+            </div>
+        </div>
+
+        <div class="row h-bg-d h-text-b">
+            <div class="col-md-3 col-md-offset-3 l-mt-4">
+                <h1 class="h-text-f">Horizontal slider</h1>
+            </div>
+            <div class="col-md-3 col-md-offset-1 l-mt-4">
+                <h1 class="h-text-f">Horizontal range slider</h1>
+            </div>
+            <div class="col-md-3 col-md-offset-3 l-mt-4 l-mb-1">
+                <ing-slider min="{{min}}" max="{{max}}" step="{{step}}" class="l-mt-4" inverse="true" id="horizontalSlider">
+                    <ing-slider-bar id="horizontalSliderBar">
+                        <ing-slider-handle id="horizontalSliderHandle" ng-model="slider.sliderValue">
+                            <ing-slider-popover>
+                                <output class="h-text-b">
+                                    <b>{{slider.sliderValue}} stevige lunches</b> {{slider.sliderValue * 5  | ingCurrency}}
+                                </output>
+                            </ing-slider-popover>
+                        </ing-slider-handle>
+                    </ing-slider-bar>
+                </ing-slider>
+            </div>
+
+            <div class="col-md-3 col-md-offset-1 l-mb-1">
+                <ing-slider min="{{min}}" max="{{max}}" step="{{step}}" class="l-mt-4" inverse="true" id="horizontalSliderRange">
+                    <ing-slider-bar id="horizontalSliderRangeBar" segments="segments">
+                        <ing-slider-handle ng-model="rangeSlider.lowerBound"></ing-slider-handle>
+                        <ing-slider-handle ng-model="rangeSlider.higherBound"></ing-slider-handle>
+                    </ing-slider-bar>
+                </ing-slider>
+            </div>
+        </div>
+
+
+        <div class="row h-bg-d h-text-b">
+            <div class="col-md-6 col-md-offset-3 l-mt-4">
+                <h1 class="h-text-f">Horizontal slider (no popover)</h1>
+            </div>
+            <div class="col-md-3 col-md-offset-3 l-mb-1">
+                <ing-slider min="{{min}}" max="{{max}}" step="{{step}}" class="l-mt-4" inverse="true" id="horizontalSliderNoPopover">
+                    <ing-slider-bar id="horizontalSliderNoPopoverBar" segments="segments">
+                        <ing-slider-handle ng-model="slider.sliderValue"></ing-slider-handle>
+                    </ing-slider-bar>
+                </ing-slider>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+</body>
+</html>

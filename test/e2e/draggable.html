@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en" ng-app="exampleApp">
+<head>
+    <meta charset="utf-8">
+    <title>Draggable example</title>
+    <!--<link rel="stylesheet" href="/app/css/global/bootstrap/bootstrap.css" type="text/css"/>-->
+    <!--<link rel="stylesheet" href="/app/css/documentation.css" type="text/css"/>-->
+
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="/lib/angular/angular.js"></script>
+    <script src="/lib/angular-resource/angular-resource.min.js"></script>
+    <script src="/lib/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="/lib/angular-animate/angular-animate.js"></script>
+
+    <!-- ING Global -->
+    <link rel="stylesheet" href="/lib/the-guide-styles/css/the-guide-styles.css" type="text/css"/>
+
+    <script type="text/javascript">
+        var exampleApp = angular.module('exampleApp', ['ingGlobal']).
+                controller('DraggableCtrl', function ($scope, $rootScope) {
+                    $scope.events = {
+                        start: false,
+                        drag: false,
+                        stop: false
+                    };
+
+                    $scope.offset = {x: 0, y: 0};
+
+                    $scope.startDrag = function(coordinates){
+                        $scope.$apply(function(){
+                            $scope.events.start = true;
+                        });
+                    };
+                    $scope.drag = function(offset){
+                        $scope.$apply(function(){
+                            $scope.events.drag = true;
+                            $scope.offset = offset;
+                        });
+                    };
+                    $scope.stopDrag = function(offset){
+                        $scope.$apply(function(){
+                            $scope.events.stop = true;
+                            $scope.offset = offset;
+                        });
+                    };
+                });
+    </script>
+
+    <script src="/js/ingglobal.js"></script>
+    <script src="/js/services/expressions.js"></script>
+    <script src="/js/services/utilsService.js"></script>
+    <script src="/js/directives/draggable.js"></script>
+<body class="tg">
+<div ng-controller="DraggableCtrl" class="container-fluid">
+
+    <div class="tg">
+        <div class="row">
+            <table class="table table-bordered-cells">
+                <tr>
+                    <th>X</th>
+                    <th>Y</th>
+                    <th>Started drag</th>
+                    <th>Dragging</th>
+                    <th>Stopped drag</th>
+                </tr>
+                <tr>
+                    <td id="x">{{offset.x}}</td>
+                    <td id="y">{{offset.y}}</td>
+                    <td id="started">{{events.start}}</td>
+                    <td id="dragging">{{events.drag}}</td>
+                    <td id="stopped">{{events.stop}}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 l-mt-4">
+                <div ing-draggable id="draggable" on-drag-begin="startDrag" on-drag="drag" on-drag-end="stopDrag"
+                     class="h-cursor-pointer panel panel-bordered" style="width: 200px; height: 1.5em; box-sizing: content-box;">Drag me!</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>
