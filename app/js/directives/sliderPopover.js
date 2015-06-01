@@ -17,41 +17,7 @@
  *
  * Currently, vertical sliders are not supported.
  *
- * @example
- <example module="ingGlobal">
-    <file name="ing-slider-popover-basic.html">
-        <div ng-controller="Ctrl">
-            <div class="row">
-                <div class="col-md-4 col-md-offset-1 l-p-2 l-pt-3">
-                    <ing-slider min="{{min}}" max="{{max}}" step="{{step}}">
-                        <ing-slider-bar>
-                            <ing-slider-handle ng-model="slider.value" aria-controls="sliderValuePopover sliderValue">
-                                <ing-slider-popover>
-                                    <output class="h-text-b" id="sliderValuePopover">
-                                        Amount: {{slider.value  | ingCurrency}}
-                                    </output>
-                                </ing-slider-popover>
-                            </ing-slider-handle>
-                        </ing-slider-bar>
-                    </ing-slider>
-                </div>
-            </div>
-            <div class="row">
-                <p id="sliderValue">Model value: {{slider.value}}</p>
-            </div>
-        </div>
-    </file>
-    <file name="slider-popover-basic-example-controller.js">
-        function Ctrl($scope) {
-            $scope.slider = {
-                value: 0.0
-            };
-            $scope.step = 0.5;
-            $scope.min = 0.0;
-            $scope.max = 2.5;
-        }
-    </file>
- </example>
+
  */
 angular.module('ingGlobal').directive('ingSliderPopover', ['$timeout', function ($timeout) {
     return {

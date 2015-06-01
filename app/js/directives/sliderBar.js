@@ -102,17 +102,6 @@ angular.module('gotoconSliderApp').directive('ingSliderBar', [function () {
                 return scope.segments;
             };
         },
-        template: '<div class="ing-slider-bar slider-wrapper">' +
-           '<div class="slider-range"' +
-                'ng-style="{left: getLowerBoundPercentage() + \'%\',' +
-                           'width: (getHigherBoundPercentage() - getLowerBoundPercentage()) + \'%\'}">' +
-           '</div>' +
-           '<div ng-transclude></div>' +
-           '<ol class="slider-segments" aria-hidden="true">' +
-               '<li ng-repeat="segment in getSegments() track by $index" class="slider-segments-item">' +
-                   '<div class="slider-segments-element">{{segment}}</div>' +
-               '</li>' +
-           '</ol>' +
-        '</div>'
+        templateUrl: 'views/partials/sliderBar.html'
     };
 }]);

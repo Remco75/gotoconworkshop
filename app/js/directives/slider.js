@@ -26,44 +26,6 @@
  * Currently, only a horizontal slider is supported. Eventually, it should also support vertical sliders
  * and adding labels to certain steps.
  *
- * @example
- <example module="ingGlobal">
-    <file name="ing-slider-basic.html">
-        <div ng-controller="Ctrl">
-            <div class="row">
-                <div class="col-md-4 col-md-offset-1 l-p-2">
-                    <ing-slider min="{{min}}" max="{{max}}" step="{{step}}">
-                        <ing-slider-bar>
-                            <ing-slider-handle ng-model="slider.value" aria-controls="sliderValue"></ing-slider-handle>
-                        </ing-slider-bar>
-                    </ing-slider>
-                </div>
-            </div>
-            <div class="row h-bg-d">
-                <div class="col-md-4 col-md-offset-1 l-p-2">
-                    <ing-slider inverse="true" min="{{min}}" max="{{max}}" step="{{step}}">
-                        <ing-slider-bar>
-                            <ing-slider-handle ng-model="slider.value" aria-controls="sliderValue"></ing-slider-handle>
-                        </ing-slider-bar>
-                    </ing-slider>
-                </div>
-            </div>
-            <div class="row">
-                <p class="l-p-2" id="sliderValue">Model value: {{slider.value}}</p>
-            </div>
-        </div>
-    </file>
-    <file name="slider-basic-example-controller.js">
-        function Ctrl($scope) {
-            $scope.slider = {
-                value: 0.0
-            };
-            $scope.step = 0.5;
-            $scope.min = 0.0;
-            $scope.max = 2.5;
-        }
-    </file>
- </example>
  */
 angular.module('gotoconSliderApp').directive('ingSlider', [function () {
     return {
@@ -119,7 +81,7 @@ angular.module('gotoconSliderApp').directive('ingSlider', [function () {
                 }
             }
         },
-        template: '<div class="ing-slider slider slider-default"' +
+        template: '<div class="slider slider-default"' +
                        'ng-class="{\'slider-horizontal\': horizontalOrientation,' +
                                   '\'slider-vertical\': !horizontalOrientation,' +
                                   '\'slider-inverse\': inverse}"' +

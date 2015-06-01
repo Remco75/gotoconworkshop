@@ -217,74 +217,31 @@ angular.module('gotoconSliderApp').directive('ingSliderHandle', function () {
                        modelValue <= scope.getMaxValue();
             };
 
-            if(angular.isDefined(ngModelCtrl.$validators)){
-                // Angular 1.3:
-                ngModelCtrl.$validators.min = minValidator;
-                ngModelCtrl.$validators.max = maxValidator;
-            } else {
-                // Angular <1.3
-                ngModelCtrl.$formatters.push(function(modelValue){
-                    ngModelCtrl.$setValidity('min', minValidator(modelValue));
-                    if(minValidator(modelValue)){
-                        return modelValue;
-                    }
-                    return undefined;
-                });
-                ngModelCtrl.$formatters.push(function(modelValue){
-                    ngModelCtrl.$setValidity('max', maxValidator(modelValue));
-                    if(maxValidator(modelValue)){
-                        return modelValue;
-                    }
-                    return undefined;
-                });
-            }
-            
+            ngModelCtrl.$validators.min = minValidator;
+            ngModelCtrl.$validators.max = maxValidator;
+
             ngModelCtrl.$render = function(){
                 scope.handleValue = ngModelCtrl.$modelValue;
             };
           
             var startValue;
             var snapValue = function(xOffset){
+                console.log(xOffset)
                 // Increment the startValue with (the percentage the slider has moved * the maximum value)
                 ngModelCtrl.$setViewValue(startValue + (xOffset / ingSlider.getWidth()) * (ingSlider.getMax() - ingSlider.getMin()), 'handleDrag');
                 ngModelCtrl.$render();
             };
 
             scope.startDrag = function(){
+                console.log('startdrag')
                 startValue = ngModelCtrl.$modelValue;
             };
 
             scope.drag = function(offset){
+                console.log('drag')
                 scope.$apply(function(){
                     snapValue(offset.x);
                 });
-            };
-
-            scope.handleKeypress = function($event){
-                // Up and right: increment the value
-                if(38 === $event.keyCode || 39 === $event.keyCode){
-                    ngModelCtrl.$setViewValue(ngModelCtrl.$modelValue + ingSlider.getStep());
-                    ngModelCtrl.$render();
-                    $event.preventDefault();
-                }
-                // Left and down: decrement the value
-                if(37 === $event.keyCode || 40 === $event.keyCode){
-                    ngModelCtrl.$setViewValue(ngModelCtrl.$modelValue - ingSlider.getStep());
-                    ngModelCtrl.$render();
-                    $event.preventDefault();
-                }
-                // End: set value to max
-                if(35 === $event.keyCode){
-                    ngModelCtrl.$setViewValue(ingSlider.getMax());
-                    ngModelCtrl.$render();
-                    $event.preventDefault();
-                }
-                // Home: set value to min
-                if(36 === $event.keyCode){
-                    ngModelCtrl.$setViewValue(ingSlider.getMin());
-                    ngModelCtrl.$render();
-                    $event.preventDefault();
-                }
             };
 
             if(attrs.ariaControls){
@@ -292,23 +249,6 @@ angular.module('gotoconSliderApp').directive('ingSliderHandle', function () {
                 element.removeAttr('aria-controls');
             }
         },
-        // We need the style `-ms-touch-action: none` to allow pointer events to not be intercepted by IE
-        // See http://msdn.microsoft.com/en-us/library/ie/jj583807%28v=vs.85%29.aspx#configure_touch_behaviors
-        template: '<div tabindex="0" ng-keypress="handleKeypress($event)"' +
-                       'ing-draggable override="true" on-drag-begin="startDrag" on-drag="drag"' +
-                       'class="ing-slider-handle slider-slide"' +
-                       'ng-style="{left: getOffset() + \'%\'}"' +
-                       'role="slider" aria-valuemin="{{getMinValue()}}" aria-valuemax="{{getMaxValue()}}"' +
-                       'aria-valuenow="{{handleValue}}" aria-orientation="{{orientation}}" aria-controls="{{ariaControls}}">' +
-           '<div class="slider-handle" ng-class="getBoundHandleClass()" ng-style="getBoundHandleStyle()">' +
-               '<div class="btn btn-b btn-lg btn-rounded btn-block" ng-class="getBoundButtonClass()">' +
-                   '<i aria-hidden="true" class="icon icon-arrow-a-left icon-sm l-rt-n2"' +
-                      'ng-if="isOnlyHandle() || isLowerBound()"></i>' +
-                   '<i aria-hidden="true" class="icon icon-arrow-a-right icon-sm l-rt-n2 l-ml-n05"' +
-                      'ng-if="isOnlyHandle() || !isLowerBound()"></i>' +
-               '</div>' +
-           '</div>' +
-           '<div ng-transclude></div>' +
-        '</div>'
+        templateUrl: 'views/partials/sliderHandle.html'
     };
 });

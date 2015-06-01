@@ -27,32 +27,6 @@
  * Usually, you will only need the offset provided to the `on-drag` handler and use that to
  * reposition the element to make it follow the movement of the user while dragging.
  *
- * @example
- <example module="ingGlobal">
-    <file name="draggable.html">
-        <div ng-controller="Ctrl">
-            <span ing-draggable id="draggable" on-drag-begin="startDrag" on-drag="drag" on-drag-end="stopDrag"
-                  class="h-cursor-pointer panel panel-bordered h-bg-a">Drag me! ({{offset.x}}, {{offset.y}})</span>
-        </div>
-    </file>
-    <file name="draggable-controller.js">
-        function Ctrl($scope) {
-            $scope.offset = {x: 0, y: 0};
-
-            $scope.startDrag = function(coordinates){
-                console.log('Started dragging');
-            };
-            $scope.drag = function(offset){
-                $scope.$apply(function(){
-                    $scope.offset = offset;
-                });
-            };
-            $scope.stopDrag = function(offset){
-                console.log('Stopped dragging');
-            };
-        }
-    </file>
- </example>
  */
 angular.module('gotoconSliderApp').directive('ingDraggable', ['$document', '$window', '$injector', function ($document, $window, $injector) {
     return {
@@ -80,10 +54,6 @@ angular.module('gotoconSliderApp').directive('ingDraggable', ['$document', '$win
                 }
             }
 
-            // Note: although ngTouch (see $swipe below) is _supposed_ to also handle mousemove
-            // events, this is not working as expected right now. This probably has to do with
-            // http://www.ng-newsletter.com/posts/angular-on-mobile.html#comment-1091275169
-            // Therefore, we still add regular mousemove, mousedown and mouseup event listeners.
             var onPointermove = function(event){
                 if($window.PointerEvent || $window.MSPointerEvent) {
                     // (Our version of) jQuery does not yet standardise MSPointerEvents,
@@ -134,7 +104,7 @@ angular.module('gotoconSliderApp').directive('ingDraggable', ['$document', '$win
                 }
 
                 event.preventDefault();
-                
+
                 controller.startDrag({
                     x: event.pageX,
                     y: event.pageY
